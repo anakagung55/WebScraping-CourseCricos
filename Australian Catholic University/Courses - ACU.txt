@@ -1,0 +1,196 @@
+001293G	Bachelor of Nursing
+001300B	Bachelor of Arts
+100201	Master of Psychology (Clinical)/Doctor of Philosophy
+100202	Master of Psychology (Educational and Developmental)/Doctor of Philosophy
+100749	Diploma in Liberal Arts
+101322	Bachelor of Nutrition Science (Honours)
+101323	Bachelor of High Performance Sport (Honours)
+101324	Bachelor of Exercise and Sports Science/Bachelor of Nutrition Science
+101567	Foundation Studies
+102075	Bachelor of Education (Primary and Secondary)
+102076	Bachelor of Education (Primary and Special Education)
+102077	Bachelor of Education (Secondary)
+102078	Bachelor of Education (Secondary and Special Education)
+102079	Bachelor of Education (Secondary)/Bachelor of Arts (Humanities)
+102080	Bachelor of Education (Secondary)/Bachelor of Arts (Mathematics)
+102082	Bachelor of Education (Secondary)/Bachelor of Arts (Design Innovation and Technologies)
+102083	Bachelor of Education (Secondary)/Bachelor of Arts (Visual Arts)
+102084	Bachelor of Education (Secondary)/Bachelor of Exercise Science
+013149E	Bachelor of Inclusive Education and Disability Studies
+017634D	Study Abroad A
+017635C	Study Abroad B
+017784A	Master of Philosophy
+029061D	Bachelor of Theology
+030125E	General English
+040344M	Bachelor of Visual Arts and Design
+040836B	Bachelor of Education (Primary)
+048590K	Graduate Certificate in Business Administration
+051777F	Master of Teaching (Secondary)
+052327B	Diploma in Visual Arts and Design
+055926K	Master of Teaching (Primary)
+057435B	IELTS Test Preparation
+061891K	Bachelor of Arts (Honours)
+061896E	Bachelor of Nursing (Honours)
+061898C	Bachelor of Theology (Honours)
+063671F	English for Academic Purposes
+063890F	Bachelor of Education (Early Childhood and Primary)
+063898J	Diploma in Business Information Systems
+066741F	Master of Social Work
+068234J	Bachelor of Teaching/Bachelor of Arts (Humanities)
+068235G	Bachelor of Teaching/Bachelor of Arts (Mathematics)
+068237F	Bachelor of Teaching/Bachelor of Arts (Visual Arts)
+068238E	Bachelor of Commerce
+068239D	Bachelor of Commerce (Honours)
+068241K	Bachelor of Arts/Bachelor of Commerce
+069051G	Bachelor of Exercise and Sports Science
+069052G	Bachelor of Exercise and Sports Science (Honours)
+071003J	Graduate Certificate in Information Technology
+071241F	Bachelor of Information Technology
+071515G	Bachelor of Physiotherapy
+072325E	Diploma in Commerce
+073336E	Bachelor of Business Administration
+073628D	Tertiary Preparation Program (Health Sciences)
+074588K	Bachelor of Nursing / Bachelor of Business Administration
+074604D	Bachelor of International Development Studies
+074605C	Bachelor of Business Administration / Bachelor of Global Studies
+074606B	Bachelor of Arts / Bachelor of Global Studies
+074607A	Bachelor of Commerce/Bachelor of Global Studies
+074608M	Bachelor of Theology/Bachelor of Global Studies
+076036D	Master of Clinical Exercise Physiology
+076790C	OET Preparation
+078169G	Bachelor of Commerce/Bachelor of Business Administration
+078172B	Bachelor of Occupational Therapy
+078173A	Bachelor of Psychological Science
+078174M	Bachelor of Speech Pathology
+078731J	Exchange A
+078736D	Exchange B
+079428G	Bachelor of Arts / Bachelor of Laws
+079430C	Bachelor of Business Administration / Bachelor of Laws
+079432A	Bachelor of Commerce / Bachelor of Laws
+079434K	Bachelor of Laws (Graduate Entry)
+079436G	Bachelor of Laws / Bachelor of Global Studies
+079438F	Bachelor of Laws
+079440A	Bachelor of Theology / Bachelor of Laws
+079442K	Bachelor of Exercise Science/Bachelor of Applied Public Health
+079445G	Bachelor of Applied Public Health / Bachelor of Global Studies
+079448D	Bachelor of Exercise Science / Bachelor of Business Administration
+079451J	Bachelor of Applied Public Health
+079454F	Bachelor of Accounting and Finance
+079874G	Master of Information Technology
+082139B	Bachelor of Information Technology/Bachelor of Business Administration
+083210C	Graduate Diploma in Psychology
+083212A	Bachelor of Education (Early Childhood and Primary) (Honours)
+083213M	Bachelor of Early Childhood Education (Birth to Five Years)
+083215J	Bachelor of Psychological Science (Honours)
+083322F	Bachelor of Speech Pathology (Honours)
+084316G	Bachelor of Youth Work
+084317F	Diploma in Business
+084319D	Diploma in Youth Work
+084320M	English for the Workplace
+084322J	Graduate Certificate in Health Administration
+084325F	Graduate Diploma in Health Administration
+084332G	Master of Health Administration
+084338A	Master of Psychology (Clinical)
+084339M	Master of Psychology (Educational and Developmental)
+084344C	Bachelor of Business
+084346A	Bachelor of Creative Arts
+084682G	Master of Business Administration
+084789G	Bachelor of Biomedical Science
+084790C	Bachelor of Social Work
+084791B	Bachelor of Social Work (Honours)
+084792A	Master of Education
+084793M	Master of Educational Leadership
+085312C	Master of Professional Psychology
+085337E	Master of Professional Accounting
+086187F	Bachelor of Nursing (Enrolled Nurses)
+086188E	Master of Rehabilitation
+086191K	Bachelor of Occupational Therapy (Honours)
+086192J	Bachelor of Physiotherapy (Honours)
+088051F	Bachelor of Biomedical Science / Bachelor of Applied Public Health
+088052E	Bachelor of Biomedical Science / Bachelor of Business Administration
+088053D	Bachelor of Biomedical Science / Bachelor of Laws
+088340G	Bachelor of Physical Activity and Health Science
+088493B	Bachelor of Teaching/Bachelor of Exercise Science
+089309K	Master of Public Health
+089310F	Graduate Diploma in Public Health
+089311E	Bachelor of Theology/ Bachelor of Philosophy
+089312D	Bachelor of Psychological Science/ Bachelor of Laws
+090702B	Master of Public Health (Global Health and Advocacy)
+090703A	Bachelor of Applied Public Health (Honours)
+090704M	Bachelor of Physical Activity and Health Science (Honours)
+090705K	Bachelor of Laws (Honours)
+090706J	Bachelor of Arts / Bachelor of Laws (Honours)
+090707G	Bachelor of Business Administration / Bachelor of Laws (Honours)
+090708G	Bachelor of Commerce / Bachelor of Laws (Honours)
+090709F	Bachelor of Laws (Honours) / Bachelor of Biomedical Science
+090710B	Bachelor of Laws (Honours) / Bachelor of Global Studies
+090711A	Bachelor of Psychological Science / Bachelor of Laws (Honours)
+090712M	Bachelor of Theology / Bachelor of Laws (Honours)
+093165J	Diploma in Educational Studies (Tertiary Preparation)
+094690B	Bachelor of Nutrition Science
+095923D	Bachelor of Applied Public Health/ Bachelor of Business Administration
+095926A	Bachelor of Nutrition Science/Bachelor of Business
+096047B	Bachelor of Biomedical Science (Honours)
+096065M	Bachelor of Sport and Outdoor Education
+096799F	Bachelor of High Performance Sport
+096830A	Master of Teaching (Primary)/Graduate Certificate in Religious Education
+096831M	Master of Teaching (Secondary)/Graduate Certificate of Religious Education
+097176G	Doctor of Philosophy
+097207E	Master of Leadership and Management in Health Care
+097208D	Bachelor of Human Services
+097980A	Bachelor of Educational Studies
+097981M	Bachelor of Allied Health
+098379K	Bachelor of Psychological Science/Bachelor of Arts
+098380F	Bachelor of Psychological Science/Bachelor of Commerce
+098381E	Bachelor of Psychological Science/Bachelor of Exercise and Sports Science
+099127M	Master of Education
+099128K	Master of Educational Leadership
+099129J	Graduate Certificate in Educational Leadership
+099393D	Bachelor of Philosophy/Bachelor of Laws
+102185D	Bachelor of Psychology (Honours)
+102811E	Graduate Certificate in Innovation and Entrepreneurship
+102812D	Graduate Certificate in Application Development
+102813C	Graduate Certificate in Data Analytics
+102814B	Graduate Certificate in Cyber Security
+102815A	Graduate Certificate in Data Science
+103846H	Master of Spiritual Direction
+103847G	Master of Theological Studies
+105271D	Master of Social Work (Qualifying)
+106762K	Diploma in Biomedical Science
+106763J	Diploma in Exercise Science
+106764H	Diploma in Nutrition Science
+106765G	Diploma in Information Technology
+106766F	Master of Dietetic Practice
+106767E	Bachelor of Criminology and Criminal Justice
+107259F	Master of Teaching (Early Childhood and Primary)
+108047K	Bachelor of Philosophy/Bachelor of Laws (Honours)
+108631E	Bachelor of Commerce (Accounting)
+108632D	Bachelor of Commerce (HRM and Management)
+108633C	Bachelor of Commerce (Marketing)
+108634B	Bachelor of Commerce (Data Analytics)
+108635A	Bachelor of Criminology and Criminal Justice (Honours)
+108636M	Bachelor of Criminology and Criminal Justice/Bachelor of Laws
+108637K	Doctor of Ministry
+109294J	Bachelor of Arts/Master of Teaching (Secondary)
+109295H	Bachelor of Arts (Western Civilisation)/Master of Teaching (Secondary)
+111436D	Bachelor of Human Rights
+111437C	Bachelor of Human Rights/Bachelor of Laws
+111438B	Bachelor of Human Rights/Bachelor of Criminology and Criminal Justice
+111751D	Master of Liberal Arts (Western Civilisation)
+111752C	Bachelor of Psychological Science/Bachelor of Nutrition Science
+111753B	Bachelor of Psychological Science/Bachelor of Criminology and Criminal Justice
+111754A	Diploma in Criminology
+111755M	Bachelor of Laws (Graduate Entry) (Honours)
+114234A	Master of Philosophy (Information Technology)
+117399M	Bachelor of Computer Science/Master of Data Science
+117558A	Bachelor of Business/Bachelor of Laws
+117559M	Bachelor of Business/Bachelor of Laws (Honours)
+117562E	Bachelor of Information Technology/Bachelor of Business
+117563D	Bachelor of Biomedical Science/Bachelor of Business
+117564C	Bachelor of Nursing/Bachelor of Business
+117565B	Bachelor of Business/Bachelor of Global Studies
+117847C	Bachelor of Social and Environmental Sustainability
+117848B	Bachelor of Social and Environmental Sustainability/Bachelor of Global Studies
+117849A	Bachelor of Social and Environmental Sustainability/Bachelor of Commerce
+117850H	Bachelor of Laws/Bachelor of Social and Environmental Sustainability
+117851G	Bachelor of Laws (Honours)/Bachelor of Social and Environmental Sustainability

@@ -1,0 +1,475 @@
+000326M	Bachelor of Communication
+000628G	Bachelor of Mathematics (Honours)
+000738B	Bachelor of Science (Honours)
+000774J	Doctor of Philosophy (Medicine)
+000817C	Doctor of Philosophy (Mechanical Engineering)
+000821G	Doctor of Philosophy (Electrical Engineering)
+000822F	Doctor of Philosophy (Chemical Engineering)
+000828M	Doctor of Philosophy (Psychology)
+000829K	Doctor of Philosophy (Physics)
+000830F	Doctor of Philosophy (Geology)
+000847G	Doctor of Philosophy (Chemistry)
+000851A	Doctor of Philosophy (Biological Sciences)
+000854J	Doctor of Philosophy (Statistics)
+000855G	Doctor of Philosophy (Physical Geography)
+000856G	Doctor of Philosophy (Law)
+000865F	Doctor of Philosophy (Economics)
+000866E	Doctor of Philosophy (Linguistics)
+000867D	Doctor of Philosophy (Sociology and Anthropology)
+000868C	Doctor of Philosophy (Drama)
+000869B	Doctor of Philosophy (Education)
+000877B	Doctor of Philosophy (Philosophy)
+000878A	Doctor of Philosophy (History)
+000879M	Doctor of Philosophy (English)
+000880G	Doctor of Philosophy (Classics)
+000896K	Master of Philosophy (Computer Science)
+000909K	Master of Philosophy (Education)
+001131C	Bachelor of Nutrition and Dietetics (Honours)
+001132B	Bachelor of Occupational Therapy (Honours)
+001133A	Bachelor of Business
+001600A	Bachelor of Design (Architecture)
+001602K	Bachelor of Arts
+001603J	Bachelor of Commerce
+001604G	Bachelor of Computer Science
+001608D	Bachelor of Mathematics
+002429K	Doctor of Philosophy (Management)
+002444M	Doctor of Philosophy (Civil Engineering)
+002476C	Doctor of Philosophy (Mathematics)
+003693G	Bachelor of Construction Management (Building) (Honours)
+006950E	Master of Philosophy (Architecture)
+006951D	Doctor of Philosophy (Architecture)
+100135	Master of Cyber Security
+100265	Master of Materials Science and Engineering
+100471	Master of Environmental Law
+100472	Bachelor of Mathematics (Advanced)
+100473	Bachelor of Science (Advanced)
+100474	Bachelor of Psychological Science (Advanced)
+100479	Bachelor of Coastal and Marine Science
+100758	Bachelor of Music
+100759	Bachelor of Visual Communication Design
+100760	Bachelor of Development Studies / Bachelor of Global Indigenous Studies
+100761	Master of Business Psychology
+101396	Master of Business Administration (Global) / Master of Science (Data Analytics)
+101397	Bachelor of Arts (Honours)
+011012E	Bachelor of Environmental Engineering (Honours)
+011014C	Master of Philosophy (Laws)
+011015B	Master of Philosophy (Social Work)
+012326A	English Language Bridging
+012981C	Master of Philosophy (Building)
+012982B	Doctor of Philosophy (Building)
+012986J	Doctor of Philosophy (Computer Science)
+013102J	Study Abroad Scheme
+013441A	Doctor of Philosophy (Social Work)
+013963G	Master of Philosophy (Surveying)
+014637C	Bachelor of Social Science
+014638B	Bachelor of Social Science (Honours)
+015700D	Bachelor of Commerce (Honours)
+015708G	Master of Philosophy (Economics)
+016817E	Doctor of Philosophy (Fine Art)
+018786B	Bachelor of Civil Engineering (Honours)
+018788M	Bachelor of Chemical Engineering (Honours)
+018795A	Bachelor of Mechanical Engineering (Honours)
+021335C	Bachelor of Software Engineering (Honours)
+022956K	Graduate Certificate in Business Administration
+023082C	Master of Leadership and Management in Education
+023083B	Master of Philosophy (Fine Art)
+023091B	Doctor of Philosophy (Music)
+023093M	Doctor of Philosophy (Food Science)
+023103C	Bachelor of Commerce/Bachelor of Laws (Honours)
+023104B	Bachelor of Arts/Bachelor of Laws (Honours)
+023110D	Bachelor of Biomedical Science
+027418G	Master of Philosophy (Music)
+027423K	Graduate Certificate in Marketing
+027432J	Graduate Certificate in Human Resource Management
+027433G	Doctor of Philosophy (Nursing)
+027434G	Doctor of Philosophy (Modern Languages)
+027435F	Doctor of Philosophy (Leisure and Tourism)
+027437D	Bachelor of Social Work (Honours)
+027438C	Doctor of Philosophy (Communication & Media Arts)
+029748F	Bachelor of Speech Pathology (Honours)
+029749E	Bachelor of Business/Bachelor of Commerce
+030569K	Bachelor of Business (Honours)
+031198B	Doctor of Philosophy (Occupational Therapy)
+031290F	Bachelor of Development Studies
+032730A	Bachelor of Visual Communication Design (Honours)
+032731M	Master of Philosophy (Design)
+032734G	Master of Philosophy (Classics)
+032735G	Master of Philosophy (Communication and Media Arts)
+032736F	Master of Philosophy (Drama)
+032737E	Master of Philosophy (English)
+032739C	Master of Philosophy (Leisure and Tourism)
+032740K	Master of Philosophy (Linguistics)
+032741J	Master of Philosophy (Modern Languages)
+032743G	Master of Philosophy (Philosophy)
+032744F	Master of Philosophy (Sociology and Anthropology)
+032749A	Graduate Certificate in Applied Finance
+032758M	Master of Philosophy (Accounting and Finance)
+032759K	Master of Philosophy (Management)
+032760F	Master of Philosophy (Statistics)
+032761E	Doctor of Philosophy (Accounting and Finance)
+032765A	Bachelor of Mechatronics Engineering (Honours)
+032791K	Master of Philosophy (Chemical Engineering)
+032792J	Master of Philosophy (Civil Engineering)
+032793G	Master of Philosophy (Electrical Engineering)
+032794G	Master of Philosophy (Mechanical Engineering)
+032796E	Bachelor of Business/Bachelor of Laws (Honours)
+032798C	Bachelor of Laws (Honours)/Diploma of Legal Practice
+032819C	Doctor of Philosophy (Nutrition and Dietitics)
+032823G	Master of Philosophy (Medical Physics)
+032825E	Master of Philosophy (Biological Sciences)
+032826D	Master of Philosophy (Chemistry)
+032827C	Master of Philosophy (Physical Geography)
+032828B	Master of Philosophy (Mathematics)
+032829A	Master of Philosophy (Geology)
+032830G	Master of Philosophy (Physics)
+032831G	Master of Philosophy (Psychology)
+032853A	Master of Philosophy (Food Science)
+033236G	Master of Philosophy (History)
+037762G	Doctor of Philosophy (Gender and Health)
+039294D	Exchange Program
+039298M	Bachelor of Physiotherapy (Honours)
+039702D	Bachelor of Biomedical Science (Honours)
+039719F	Master of Philosophy (Marine Science)
+039720B	Master of Philosophy (Sustainable Resource Management)
+039721A	Doctor of Philosophy (Aboriginal Health Studies)
+039722M	Doctor of Philosophy (Anatomical Pathology)
+039723K	Doctor of Philosophy (Anatomy)
+039726G	Doctor of Philosophy (Clinical Pharmacology)
+039727F	Doctor of Philosophy (Environmental and Occupational Health)
+039728E	Doctor of Philosophy (General Practice)
+039729D	Doctor of Philosophy (Human Physiology)
+039731K	Doctor of Philosophy (Immunology and Microbiology)
+039732J	Doctor of Philosophy (Marine Science)
+039733G	Doctor of Philosophy (Medical Biochemistry)
+039734G	Doctor of Philosophy (Medical Genetics)
+039735F	Doctor of Philosophy (Medical Radiation Science)
+039737D	Doctor of Philosophy (Psychiatry)
+039738C	Doctor of Philosophy (Reproductive Medicine)
+039739B	Doctor of Philosophy (Surgical Science)
+039740J	Doctor of Philosophy (Sustainable Resource Management)
+039940A	Master of Philosophy (Clinical Pharmacology)
+039942K	Master of Philosophy (Occupational Therapy)
+039943J	Doctor of Philosophy (Design)
+039978J	Study Abroad Scheme
+039979G	Exchange Program
+039981C	Master of Philosophy (Aboriginal Health Studies)
+039982B	Master of Philosophy (Anatomical Pathology)
+039983A	Master of Philosophy (Anatomy)
+039985K	Master of Philosophy (Environmental and Occupational Health)
+039986J	Master of Philosophy (General Practice)
+039987G	Master of Philosophy (Human Physiology)
+039988G	Master of Philosophy (Immunology and Microbiology)
+039991A	Master of Philosophy (Medical Biochemistry)
+039993K	Master of Philosophy (Medical Genetics)
+039998E	Master of Philosophy (Medical Radiation Science)
+039999D	Master of Philosophy (Medicine)
+040000B	Master of Philosophy (Nutrition and Dietitics)
+040002M	Master of Philosophy (Psychiatry)
+040003K	Master of Philosophy (Reproductive Medicine)
+040004J	Master of Philosophy (Surgical Science)
+043947D	Bachelor of Social Science / Bachelor of Laws (Honours)
+044439E	Bachelor of Information Technology
+045032J	Master of Philosophy (Information Systems)
+045882M	Master of Philosophy (Nursing)
+045910A	Master of Philosophy (Environmental Science)
+045911M	Master of Philosophy (Aboriginal Studies)
+045913J	Master of Philosophy (Human Geography)
+045921J	Master of Philosophy (Physiotherapy)
+045922G	Master of Philosophy (Computer Engineering)
+045923G	Master of Philosophy (Software Engineering)
+045925E	Master of Philosophy (Environmental Engineering)
+045926D	Master of Philosophy (Politics)
+045927C	Master of Philosophy (Speech Pathology)
+045935C	Doctor of Philosophy (Surveying)
+045937A	Doctor of Philosophy (Environmental Engineering)
+045938M	Doctor of Philosophy (Aboriginal Studies)
+045944B	Doctor of Philosophy (Software Engineering)
+045946M	Doctor of Philosophy (Computer Engineering)
+045947K	Doctor of Philosophy (Human Geography)
+045948J	Doctor of Philosophy (Environmental Science)
+045949G	Doctor of Philosophy (Information Systems)
+045950D	Doctor of Philosophy (Politics)
+045951C	Doctor of Philosophy (Speech Pathology)
+045953A	Doctor of Philosophy (Physiotherapy)
+050541A	Bachelor of Development Studies (Honours)
+053410K	Master of Philosophy (Information Technology)
+053411J	Doctor of Philosophy (Information Technology)
+055918K	Bachelor of Food Science and Human Nutrition
+056223M	Doctor of Philosophy (Cultural Studies)
+056224K	Doctor of Philosophy (Oral Health)
+056225J	Doctor of Philosophy (Midwifery)
+056983D	Master of Philosophy (Cultural Studies)
+056984C	Master of Philosophy (Oral Health)
+057003D	Master of Philosophy (Pharmacy)
+057004C	Master of Philosophy (Experimental Pharmacology)
+057005B	Doctor of Philosophy (Pharmacy)
+057006A	Doctor of Philosophy (Experimental Pharmacology)
+058964B	Bachelor of Podiatry
+059877D	Bachelor of Environmental Science and Management
+059879B	Bachelor of Biotechnology
+059999E	Master of Professional Accounting
+061922G	Bachelor of Environmental Science and Management (Honours)
+061935C	Bachelor of Aboriginal Studies (Honours)
+062019J	Master of Architecture
+064408B	Master of Public Health
+064596D	Bachelor of Biotechnology (Honours)
+064801D	Doctor of Philosophy (Religious Studies)
+064802C	Master of Philosophy (Religious Studies)
+065470K	Graduate Certificate in Professional Accounting
+065471J	Master of Professional Accounting (Advanced)
+069207D	Bachelor of Health (Exit Award Only)
+069314A	English for General Purposes (Beginner to Advanced) (5 to 60 weeks)
+069584A	Doctor of Philosophy (Engineering)
+070062F	Bachelor of Exercise and Sports Science (Honours)
+070421K	Master of Philosophy (Exercise and Sport Science)
+070422J	Doctor of Philosophy (Exercise and Sport Science)
+071681D	English for Academic Purposes (Upper Intermediate to Advanced) (5 to 10 weeks)
+072216K	Bachelor of Information Technology/Bachelor of Business
+072609D	Bachelor of Nursing
+073057A	Master of Philosophy (Social Inclusion)
+073058M	Doctor of Philosophy (Social Inclusion)
+073274C	Bachelor of Food Science and Human Nutrition (Honours)
+074728C	Doctor of Philosophy (Podiatry)
+074729B	Master of Philosophy (Podiatry)
+075307E	Doctor of Philosophy (Natural History Illustration)
+075308D	Master of Philosophy (Natural History Illustration)
+077826K	Bachelor of Surveying (Honours)
+079533G	Master of Laws
+079631E	Juris Doctor/Graduate Diploma in Legal Practice
+079931D	Bachelor of Pharmacy (Honours)
+082394J	Bachelor of Medical Science and Doctor of Medicine
+082759G	Doctor of Philosophy (Magnetic Resonance in Medicine)
+082760C	Master of Philosophy (Magnetic Resonance in Medicine)
+083517F	Master of Information Technology
+084069F	Bachelor of Oral Health Therapy
+084166E	Graduate Certificate in Social Change and Development
+084247D	Master of Business Administration / Master of Human Resource Management
+084248C	Master of Business Administration / Master of International Business
+084249B	Master of Business Administration / Master of Marketing
+084250J	Master of Business Administration / Master of Applied Finance
+084357J	Master of Professional Accounting/Master of Business Administration
+085254G	Bachelor of Medical Science (Honours)
+087760G	Doctor of Philosophy (Environmental Remediation)
+087761F	Master of Philosophy (Environmental Remediation)
+087966D	Master of Philosophy (Family Studies)
+087967C	Doctor of Philosophy (Family Studies)
+088060E	Bachelor of Medical Radiation Science (Honours) (Diagnostic Radiography)
+088061D	Bachelor of Medical Radiation Science (Honours) (Nuclear Medicine)
+088062C	Bachelor of Medical Radiation Science (Honours) (Radiation Therapy)
+088342F	Master of Social Change and Development
+088914G	Doctor of Philosophy (Nutritional Biochemistry)
+088916F	Master of Philosophy (Nutritional Biochemistry)
+088938M	Bachelor of Civil Engineering (Honours)/ Bachelor of Mathematics
+089718D	Graduate Diploma in Environmental Risk Assessment and Remediation [Exit Only Award]
+090807D	Graduate Certificate in Disaster Risk Reduction
+092848A	Bachelor of Computer Systems Engineering (Honours)
+092849M	Bachelor of Electrical and Electronic Engineering (Honours)
+092850G	Master of Professional Engineering (Geospatial Engineering and Surveying)
+092855B	Master of Professional Engineering (Environmental)
+093503G	Bachelor of Electrical and Electronic Engineering (Honours)/Bachelor of Computer Systems Engineering (Honours)
+094555J	Master of Philosophy (Disaster Management)
+094556G	Doctor of Philosophy (Disaster Management)
+094557G	Bachelor of Education Studies [Exit Only Award]
+094558F	Associate Degree in Health [Exit Only Award]
+095143K	Bachelor of Development Studies/Bachelor of Social Science
+095144J	Bachelor of Food Science and Human Nutrition/Bachelor of Business
+095145G	Bachelor of Development Studies/Bachelor of Business
+095146G	Bachelor of Development Studies/Bachelor of Laws (Honours)
+095147F	Bachelor of Innovation and Entrepreneurship/Bachelor of Laws (Honours)
+095148E	Bachelor of Arts/Bachelor of Innovation and Entrepreneurship
+095149D	Bachelor of Psychological Science
+095150M	Bachelor of Psychological Science (Honours)
+095151K	Bachelor of Education (Early Childhood and Primary)
+095152J	Bachelor of Education (Early Childhood and Primary) (Honours)
+095153G	Bachelor of Education (Primary)
+095154G	Bachelor of Education (Primary) (Honours)
+095155F	Bachelor of Education (Secondary)
+095156E	Bachelor of Education (Secondary) (Honours)
+095157D	Doctor of Philosophy (Earth Sciences)
+095158C	Master of Philosophy (Earth Sciences)
+095159B	Master of Disaster Resilience and Sustainable Development
+095233G	Graduate Certificate in Clinical Epidemiology
+095696K	Bachelor of Nursing (Honours)
+095697J	Bachelor of Health Science (Honours)
+096167E	Master of Special and Inclusive Education
+096443A	Graduate Certificate in Information Technology
+096509K	Bachelor of Medical Engineering (Honours)
+096510F	Master of Philosophy (Clinical Epidemiology and Medical Statistics)
+096511E	Doctor of Philosophy (Clinical Epidemiology and Medical Statistics)
+096512D	Master of Philosophy (Gerontology and Geriatrics)
+096513C	Master of Philosophy (Health Economics)
+096514B	Doctor of Philosophy (Health Economics)
+096515A	Master of Philosophy (Medical Education)
+096516M	Master of Philosophy (Paediatrics and Child Health)
+096517K	Doctor of Philosophy (Paediatrics and Child Health)
+096518J	Doctor of Philosophy (Public Health and Behavioural Sciences)
+096519G	Master of Philosophy (Trauma Sciences)
+096520D	Doctor of Philosophy (Medical Education)
+096521C	Doctor of Philosophy (Trauma Sciences)
+096522B	Doctor of Philosophy (Gerontology and Geriatrics)
+096523A	Master of Philosophy (Public Health and Behavioural Sciences)
+096747G	Master of Business Administration (Global)
+096748F	Master of Education
+096749E	Graduate Certificate in Education
+096750A	Master of Professional Accounting / Master of Business Administration
+097897G	Master of Nursing
+098283G	Master of Professional Engineering (Civil)
+098284F	Master of Professional Engineering (Electrical and Electronic)
+098285E	Master of Professional Engineering (Mechanical)
+098481A	Master of Dispute Resolution
+098482M	Master of Midwifery Studies
+098483K	Bachelor of Environmental Science and Management / Bachelor of Business
+098484J	Bachelor of Global Indigenous Studies
+098485G	Bachelor of Global Indigenous Studies / Bachelor of Laws (Honours)
+098538M	Study Abroad (Diagnostic Radiography)
+098539K	Bachelor of Science
+098540F	Bachelor of Arts / Bachelor of Science
+098541E	Bachelor of Mathematics / Bachelor of Science
+098543C	Bachelor of Science / Bachelor of Laws (Hons)
+098562M	Master of Clinical Psychology
+098563K	Master of Professional Psychology
+099293G	Bachelor of Renewable Energy Engineering (Honours)
+099294G	Associate Degree in Science
+102237H	Master of Applied Finance
+102238G	Master of Business Administration
+102239F	Master of Human Resource Management
+102240B	Master of International Business
+102241A	Master of Marketing
+102243K	Graduate Certificate in Health Economics, Management and Policy
+102244J	Doctor of Philosophy (Clinical Psychology)
+102245H	Master of Philosophy (Materials Science and Engineering)
+102246G	Doctor of Philosophy (Materials Science and Engineering)
+102441D	Master of Health Economics, Management and Policy
+102442C	Master of Health Economics, Management and Policy (Global)
+102443B	Master of Health Economics, Management and Policy / Master of Business Administration
+102444A	Master of Philosophy (Midwifery)
+102636D	Bachelor of Exercise and Sports Science
+102637C	Graduate Diploma in Exercise and Chronic Disease Management
+102638B	Master of Exercise Physiology
+102639A	Master of Professional Psychology (Clinical Foundation)
+102640H	Graduate Diploma in Psychological Science
+102641G	Bachelor of Business Analytics
+102642F	Bachelor of Business / Bachelor of Business Analytics
+102643E	Bachelor of Commerce / Bachelor of Business Analytics
+102644D	Bachelor of Climate Science and Adaptation
+102956K	Bachelor of Education (Early Childhood and Primary Studies)
+102957J	Bachelor of Education (Primary Studies)
+102958H	Bachelor of Education (Secondary Studies)
+102959G	Master of Teaching (Primary Studies)
+102960C	Master of Teaching (Secondary Studies)
+103855G	Master of Philosophy (Medical Engineering)
+103856F	Doctor of Philosophy (Medical Engineering)
+104602J	Foundation Studies
+104603H	Foundation Studies in Medicine
+104604G	Degree Transfer Business
+104605F	Degree Transfer Extended Business
+104606E	Degree Transfer Commerce
+104607D	Degree Transfer Extended Commerce
+104608C	Degree Transfer Engineering
+104609B	Degree Transfer Extended Engineering
+104610J	Degree Transfer Information Technology
+104611H	Degree Transfer Extended Information Technology
+104612G	Pre-Masters Program Business
+104613F	Pre-Masters Program Information Technology
+105360C	Master of Clinical Epidemiology
+105361B	Bachelor of Computing (Honours)
+105362A	Bachelor of Data Science
+105363M	Bachelor of Data Science / Bachelor of Mathematics
+105364K	Bachelor of Data Science / Bachelor of Computer Science
+105991E	Master of Translation Studies
+106118E	Bachelor of Psychological Science/Bachelor of Business
+106119D	Bachelor of Psychological Science/Bachelor of Social Science
+106657M	Bachelor of Nursing
+106658K	Bachelor of Psychological Science/Bachelor of Laws (Honours)
+106659J	Bachelor of Biomedicine
+106660E	Bachelor of Biomedicine/Bachelor of Laws (Honours)
+106893K	Bachelor of Music and Performing Arts
+106894J	Bachelor of Music and Performing Arts/Bachelor of Arts
+106895H	Bachelor of Music and Performing Arts (Honours)
+107759H	Master of Philosophy (Business Systems and Analytics)
+107760D	Doctor of Philosophy (Health Economics)
+107761C	Master of Philosophy (Health Economics)
+107762B	Doctor of Philosophy (Business Systems and Analytics)
+108849J	Diploma in Languages
+110884K	Bachelor of Criminology
+110885J	Bachelor of Criminology/Bachelor of Psychological Science
+110886H	Bachelor of Criminology/Bachelor of Laws (Honours)
+111298J	Bachelor of Chemical Engineering (Honours)
+111299H	Bachelor of Chemical Engineering (Honours)/Bachelor of Business
+111300J	Bachelor of Chemical Engineering (Honours)/Bachelor of Mathematics
+111301H	Bachelor of Civil Engineering (Honours)
+111302G	Bachelor of Civil Engineering (Honours)/Bachelor of Environmental Engineering (Honours)
+111303F	Bachelor of Civil Engineering (Honours)/Bachelor of Mathematics
+111304E	Bachelor of Civil Engineering (Honours)/Bachelor of Surveying (Honours)
+111305D	Bachelor of Computer Systems Engineering (Honours)
+111306C	Bachelor of Computer Systems Engineering (Honours)/Bachelor of Computer Science
+111307B	Bachelor of Computer Systems Engineering (Honours)/Bachelor of Mathematics
+111308A	Bachelor of Construction Management (Building) (Honours)
+111309M	Bachelor of Electrical & Electronic Engineering (Honours)/Bachelor of Computer Systems Engineering (Honours)
+111310G	Bachelor of Electrical and Electronic Engineering (Honours)
+111332A	Bachelor of Electrical and Electronic Engineering (Honours)/Bachelor of Business
+111333M	Bachelor of Electrical and Electronic Engineering (Honours)/Bachelor of Mathematics
+111338F	Bachelor of Environmental Engineering (Honours)
+111339E	Bachelor of Mechanical Engineering (Honours)
+111371E	Bachelor of Mechanical Engineering (Honours)/Bachelor of Business
+111373C	Bachelor of Mechanical Engineering (Honours)/Bachelor of Mathematics
+111374B	Bachelor of Mechanical Engineering (Honours)/Bachelor of Mechatronics Engineering (Honours)
+111375A	Bachelor of Mechatronics Engineering (Honours)
+111376M	Bachelor of Mechatronics Engineering (Honours)/B Electrical & Electronic Engineering (Honours)
+111377K	Bachelor of Mechatronics Engineering (Honours)/Bachelor of Mathematics
+111378J	Bachelor of Medical Engineering (Honours)
+111379H	Bachelor of Renewable Energy Engineering (Honours)
+111380D	Bachelor of Software Engineering (Honours)
+111381C	Bachelor of Surveying (Honours)
+111382B	Bachelor of Surveying (Honours)/Bachelor of Business
+111383A	Bachelor of Criminology (Honours)
+111384M	Bachelor of Tourism, Hospitality and Events
+111462B	Bachelor of Civil Engineering (Honours)/Bachelor of Business
+113050F	Degree Transfer Design (Architecture)
+113051E	Degree Transfer Extended Design (Architecture)
+113052D	Degree Transfer Extended Construction Management (Building)
+113053C	Bachelor of Media and Communication
+113054B	Bachelor of Media and Communication (Honours)
+113055A	Bachelor of Media and Communication/Bachelor of Laws (Honours)
+113056M	Bachelor of Psychological Science/Bachelor of Media and Communication
+113057K	Bachelor of Development Studies/Bachelor of Media and Communication
+113058J	Degree Transfer Construction Management (Building)
+113390H	Express Preparation Program
+113784A	Master of Public Health/Master of Social Change and Development
+113785M	Master of Public Health/Master of Health Economics, Management and Policy
+113786K	Graduate Certificate in Disaster Risk and Resilience
+113848A	Master of Professional Engineering (Civil)
+113849M	Master of Professional Engineering (Electrical and Electronic)
+113850G	Master of Professional Engineering (Mechanical)
+114390M	Juris Doctor
+114391K	Degree Transfer Media and Communication
+114397D	Degree Transfer Extended Media and Communication
+115099F	Master of Construction Management (Professional)
+115617M	Master of Disaster Risk and Resilience
+116126M	Bachelor of Podiatric Medicine (Honours)
+116127K	Bachelor of Podiatric Medicine
+116244E	Bachelor of Medical Radiation Science (Honours)(Radiation Therapy)
+116294F	Master of Laboratory Medicine
+116295E	Graduate Diploma in Laboratory Medicine
+116296D	Graduate Certificate in Laboratory Medicine
+116512A	Master of Data Science and Artificial Intelligence
+116621G	Graduate Certificate in Nutrition
+116622F	Graduate Certificate in Human and Social Services
+116623E	Master of Social Work (Qualifying)
+116624D	Bachelor of Business/Bachelor of Media and Communication
+117034G	Doctor of Philosophy (Low Cost)
+117035F	Doctor of Philosophy (High Cost)
+117036E	Master of Philosophy (Low Cost)
+117037D	Master of Philosophy (High Cost)
+117170K	Graduate Certificate in Marketing and Digital Strategy
+117171J	Master of Marketing and Digital Strategy
+117172H	Master of Business Administration/Master of Marketing and Digital Strategy
+117173G	Graduate Certificate in Digital Finance
+117174F	Master of Digital Finance
+117175E	Master of Business Administration/Master of Digital Finance
+117503E	Doctor of Philosophy (Research) by Prior Publication (High Cost)
+117504D	Doctor of Philosophy (Research) by Prior Publication (Low Cost)
+117629B	Graduate Certificate in Sports Analytics
+117630J	Master of Sports Analytics
+117631H	Master of International Sports Business
+117632G	Master of International Sports Business/Master of Sports Analytics
