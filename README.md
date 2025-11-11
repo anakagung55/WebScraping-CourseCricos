@@ -50,8 +50,8 @@ The result is formatted as **SQL-ready data** for integration into databases or 
 
 ```bash
 # Clone the repository
-git clone https://github.com/<yourusername>/AusCourseMiner.git
-cd AusCourseMiner
+git clone https://github.com/anakagung55/WebScraping-CourseCricos.git
+cd WebScraping-CourseCricos
 
 # Install dependencies
 pip install -r requirements.txt
