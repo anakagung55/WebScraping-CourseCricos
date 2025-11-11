@@ -4,14 +4,18 @@ import pandas as pd
 import time, os
 
 # === KONFIGURASI ===
-INPUT_FILE = "wsu_course_links.xlsx"
+INPUT_FILE = "Western Sydney University/wsu_course_links.xlsx"
 OUTPUT_SQL = "wsu_update_courses.sql"
 SAVE_INTERVAL = 10  # Simpan setiap 10 course
-APPLY_FORM = "http://apply.westernsydney.edu.au/"
 
-# === BACA LINK ===
+# === BACA LINK (pastikan ada kolom course_url) ===
 df = pd.read_excel(INPUT_FILE)
-links = df.iloc[:, 0].dropna().tolist()
+
+# pastikan nama kolomnya "course_url" — jika beda, ubah di sini
+if "course_url" not in df.columns:
+    raise ValueError("❌ Kolom 'course_url' tidak ditemukan di file Excel!")
+
+links = df["course_url"].dropna().tolist()
 
 sql_results = []
 
@@ -31,7 +35,7 @@ with sync_playwright() as p:
             soup = BeautifulSoup(page.content(), "html.parser")
 
             # === DESCRIPTION ===
-            desc_div = soup.find("div", class_="cmp-course__overview__two-column")
+            desc_div = soup.find("div", class_="course_heading_description")
             course_description = str(desc_div) if desc_div else ""
 
             # === DURATION ===
@@ -39,8 +43,8 @@ with sync_playwright() as p:
             total_course_duration = dur_div.get_text(strip=True) if dur_div else ""
 
             # === OFFSHORE FEE (INTERNATIONAL) ===
-            fee_tag = soup.find("p", class_="cmp-fees-scholarship-section-form-para-international")
             offshore_fee = ""
+            fee_tag = soup.find("p", class_="cmp-fees-scholarship-section-form-para-international")
             if fee_tag:
                 text = fee_tag.get_text(strip=True)
                 offshore_fee = clean_fee(text)
@@ -60,12 +64,17 @@ with sync_playwright() as p:
                 if "CRICOS" in text:
                     cricos_code = text.split(":")[-1].strip()
 
+            # Jika CRICOS kosong → skip
+            if not cricos_code:
+                print("⚠️ Skipped (no CRICOS):", url)
+                continue
+
             # === ENTRY REQUIREMENTS ===
             entry_sections = soup.find_all("div", class_="component component--wysiwyg aem-GridColumn aem-GridColumn--default--12")
             entry_html = "".join(str(div) for div in entry_sections) if entry_sections else ""
 
-            # === APPLY FORM (KONSTAN) ===
-            apply_form = APPLY_FORM
+            # === APPLY FORM (langsung dari link course) ===
+            apply_form = url
 
             # === GENERATE SQL ===
             sql = f"""
@@ -75,11 +84,14 @@ UPDATE courses SET
     onshore_tuition_fee = {repr(onshore_fee)},
     offshore_tuition_fee = {repr(offshore_fee)},
     entry_requirements = {repr(entry_html)},
-    apply_form = {repr(apply_form)}
+    apply_form = {repr(apply_form)},
+    created_at = NOW(),
+    updated_at = NOW()
 WHERE cricos_course_code = {repr(cricos_code)};
 """
+
             sql_results.append(sql)
-            print(f"✅ Success: {cricos_code or 'NO CRICOS FOUND'}")
+            print(f"✅ Success: {cricos_code}")
 
             # === SIMPAN SETIAP 10 COURSE ===
             if i % SAVE_INTERVAL == 0:

@@ -1,14 +1,28 @@
 import re, asyncio, pandas as pd
 from bs4 import BeautifulSoup
+from datetime import datetime
 from playwright.async_api import async_playwright
 
+# === CLEAN HTML ===
 def clean_html(html: str) -> str:
     if not html:
         return ""
     html = re.sub(r"\s+", " ", html)
     html = re.sub(r"(<br\s*/?>\s*){2,}", "<br>", html)
+    html = html.replace("'", "''")
     return html.strip()
 
+# === SANITIZE HTML ===
+def sanitize_html(soup: BeautifulSoup) -> str:
+    """hapus elemen media & ubah heading ke <p style='font-weight:bold;'>"""
+    for tag in soup.find_all(['img', 'svg', 'picture', 'iframe', 'video', 'source']):
+        tag.decompose()
+    for h in soup.find_all(['h1', 'h2', 'h3']):
+        h.name = 'p'
+        h['style'] = 'font-weight:bold;'
+    return str(soup)
+
+# === SCRAPER PER COURSE ===
 async def scrape_usc(url, duration_from_excel, browser):
     data = {
         "url": url,
@@ -17,7 +31,7 @@ async def scrape_usc(url, duration_from_excel, browser):
         "total_course_duration": duration_from_excel or "",
         "offshore_tuition_fee": "",
         "entry_requirements": "",
-        "apply_form": "https://www.usc.edu.au/international/international-students/apply-now",
+        "apply_form": url,  # langsung ke URL course
         "cricos_course_code": ""
     }
 
@@ -42,11 +56,13 @@ async def scrape_usc(url, duration_from_excel, browser):
 
         # === DESCRIPTION ===
         desc = soup.select_one("div.card-body[ng-transclude]")
-        data["course_description"] = clean_html(str(desc)) if desc else ""
+        if desc:
+            data["course_description"] = clean_html(sanitize_html(desc))
 
         # === ENTRY REQUIREMENTS ===
         entry = soup.select_one("div#entry-requirements .card-body")
-        data["entry_requirements"] = clean_html(str(entry)) if entry else ""
+        if entry:
+            data["entry_requirements"] = clean_html(sanitize_html(entry))
 
         # === CRICOS CODE ===
         cricos_div = soup.select_one("strong.key-figure")
@@ -79,9 +95,11 @@ async def scrape_usc(url, duration_from_excel, browser):
     return data
 
 
+# === MAIN LOOP ===
 async def main():
-    df = pd.read_excel("usc.xlsx")
+    df = pd.read_excel("Sunshine Coast University/usc.xlsx")
     all_data, sqls = [], []
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=False)
@@ -112,7 +130,9 @@ UPDATE courses SET
     total_course_duration = '{esc(result["total_course_duration"])}',
     offshore_tuition_fee = '{esc(result["offshore_tuition_fee"])}',
     entry_requirements = '{esc(result["entry_requirements"])}',
-    apply_form = '{esc(result["apply_form"])}'
+    apply_form = '{esc(result["apply_form"])}',
+    created_at = '{now}',
+    updated_at = '{now}'
 WHERE cricos_course_code = '{cricos}';
 """
             sqls.append(sql)

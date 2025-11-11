@@ -4,7 +4,7 @@ import pandas as pd
 import re, time, sys
 
 # ====== CONFIG ======
-INPUT_XLSX   = "study.xlsx"
+INPUT_XLSX   = "Australian National University/study.xlsx"
 OUTPUT_SQL   = "anu_courses_update.sql"
 HEADLESS     = True
 NAV_TIMEOUT  = 90000
@@ -60,28 +60,30 @@ def get_cricos(soup: BeautifulSoup) -> str:
 def parse_program_html(html: str) -> dict:
     soup = BeautifulSoup(html, "html.parser")
 
-    # description = paragraf di bawah <h2 id="admission-requirements">
+    # ===== DESCRIPTION =====
+    # Ambil langsung seluruh HTML di dalam <div id="introduction">
+    desc_div = soup.select_one("div#introduction")
+    desc_html = str(desc_div).strip() if desc_div else ""
+
+    # ===== ENTRY REQUIREMENTS =====
+    entry_html = ""
     h2_adm = soup.select_one("h2#admission-requirements")
-    desc_html = ""
     if h2_adm:
-        # ambil p tepat di bawah admission-requirements (bukan prerequisites)
-        ps = []
+        parts = []
         for sib in h2_adm.next_siblings:
-            if isinstance(sib, Tag) and sib.name == "h2":
+            # stop ketika sudah ketemu section "Indicative fees"
+            if isinstance(sib, Tag) and sib.get("id") == "indicative-fees":
                 break
-            if isinstance(sib, Tag) and sib.name == "p":
-                ps.append(str(sib))
-        desc_html = "".join(ps).strip()
+            # kumpulkan semua elemen antar Admission → Indicative fees
+            if isinstance(sib, (Tag, NavigableString)):
+                parts.append(str(sib))
+        entry_html = "".join(parts).strip()
 
-    # entry requirements = konten dari <h2 id="prerequisites"> sampai <h2> berikutnya
-    h2_pre = soup.select_one("h2#prerequisites")
-    entry_html = html_after_h2_until_next_h2(h2_pre)
-
-    # offshore fee = dd di dalam #indicative-fees__international
+    # ===== OFFSHORE FEE =====
     fee_int_dd = soup.select_one("#indicative-fees__international dd")
     offshore_fee = only_digits(fee_int_dd.get_text(strip=True)) if fee_int_dd else ""
 
-    # cricos code
+    # ===== CRICOS CODE =====
     cricos = get_cricos(soup)
 
     return {
@@ -90,6 +92,7 @@ def parse_program_html(html: str) -> dict:
         "offshore_tuition_fee": offshore_fee,
         "cricos": cricos
     }
+
 
 def sql_update_row(row: dict) -> str:
     return f"""UPDATE courses SET

@@ -19,7 +19,7 @@ headers = {
 }
 
 # === READ URLS FROM FILE ===
-with open("adelaide_links.txt", "r", encoding="utf-8") as f:
+with open("The University Of Adelaide/adelaide_links.txt", "r", encoding="utf-8") as f:
     urls = [line.strip() for line in f if line.strip()]
 
 results = []
@@ -32,6 +32,7 @@ def auto_save(progress_num):
         for row in results:
             f.write(row["sql"] + "\n\n")
     print(f"💾 Auto-saved after {progress_num} records ✅")
+
 
 for i, url in enumerate(urls, 1):
     print(f"\n[{i}/{len(urls)}] Scraping: {url}")
@@ -48,23 +49,15 @@ for i, url in enumerate(urls, 1):
         desc_div = soup.find("div", class_="intro-df")
         course_description = str(desc_div) if desc_div else ""
 
-        # === 2️⃣ Entry Requirements (FINAL robust version) ===
+        # === 2️⃣ Entry Requirements ===
         entry_requirements = ""
-
-        # 1️⃣ Cari by ID dulu (paling presisi)
         entry_div = soup.find("div", id=re.compile(r"entry[-_ ]requirements", re.I))
-
-        # 2️⃣ Kalau gak ada, cari class yang ada kata df_ent_req
         if not entry_div:
             entry_div = soup.find("div", class_=re.compile(r"df_ent_req", re.I))
-
-        # 3️⃣ Kalau masih belum ketemu, cari h2 yang tulisannya mengandung "Entry Requirements"
         if not entry_div:
             entry_h2 = soup.find("h2", string=re.compile(r"Entry\s*Requirements", re.I))
             if entry_h2:
                 entry_div = entry_h2.find_parent("div")
-
-        # 4️⃣ Kalau tetap belum ketemu, fallback: cari string langsung di HTML
         if not entry_div:
             html_str = str(soup)
             match = re.search(
@@ -74,8 +67,6 @@ for i, url in enumerate(urls, 1):
             )
             if match:
                 entry_requirements = match.group(1)
-
-        # 5️⃣ Kalau entry_div ditemukan (normal), ubah ke HTML string
         if entry_div and not entry_requirements:
             entry_requirements = str(entry_div)
 
@@ -88,7 +79,7 @@ for i, url in enumerate(urls, 1):
                 total_course_duration = re.sub(r"\s+", " ", total_course_duration)
                 break
 
-        # === 4️⃣ Tuition Fees (Domestic + International) ===
+        # === 4️⃣ Tuition Fees ===
         onshore_tuition_fee = ""
         offshore_tuition_fee = ""
         page_text = soup.get_text(" ", strip=True)
@@ -106,29 +97,23 @@ for i, url in enumerate(urls, 1):
             if all_fees:
                 offshore_tuition_fee = str(max(all_fees))
 
-        # === 5️⃣ Apply Form ===
-        apply_form = ""
-        apply_li = soup.find("li", class_="c-sticky-social-bar__item is-blue")
-        if apply_li:
-            a_tag = apply_li.find("a", href=True)
-            if a_tag:
-                href = a_tag["href"]
-                if href.startswith("/"):
-                    href = "https://www.adelaide.edu.au" + href
-                apply_form = href
+        # === 5️⃣ Apply Form (diubah agar langsung ke link course) ===
+        apply_form = url  # ✅ langsung isi dengan link course
 
         # === 6️⃣ CRICOS ===
         cricos_td = soup.find("td", attrs={"data-th": "CRICOS"})
         cricos = cricos_td.get_text(strip=True) if cricos_td else ""
 
-        # === 7️⃣ Build SQL ===
+        # === 7️⃣ Build SQL (tambahkan created_at & updated_at) ===
         sql = f"""UPDATE courses SET
     course_description = {repr(course_description)},
     onshore_tuition_fee = '{onshore_tuition_fee}',
     offshore_tuition_fee = '{offshore_tuition_fee}',
     entry_requirements = {repr(entry_requirements)},
     total_course_duration = '{total_course_duration}',
-    apply_form = '{apply_form}'
+    apply_form = '{apply_form}',
+    created_at = NOW(),
+    updated_at = NOW()
 WHERE cricos_course_code = '{cricos}';"""
 
         results.append({

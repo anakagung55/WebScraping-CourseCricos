@@ -68,7 +68,8 @@ def scrape_program(page, code, name):
         "cricos_course_code": "",
         "course_description": "",
         "total_course_duration": "",
-        "entry_requirements": ""
+        "entry_requirements": "",
+        "apply_form": link
     }
     try:
         page.goto(url, timeout=60000)

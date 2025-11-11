@@ -2,11 +2,12 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import time
+from datetime import datetime
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 # ===================== CONFIG =====================
-COURSES_FILE = "Courses - ACU.txt"
+COURSES_FILE = "Australian Catholic University/Courses - ACU.txt"
 BASE = "https://www.acu.edu.au/course/"
 OUTPUT_FILE = "acu_courses_update.sql"
 REQUEST_TIMEOUT = 60
@@ -23,13 +24,30 @@ retries = Retry(
 )
 session.mount("https://", HTTPAdapter(max_retries=retries))
 
+
 def extract_number(text):
     match = re.search(r'\$?([\d,]+)', text)
     return match.group(1).replace(',', '') if match else ''
 
+
 def clean_html(html):
-    """bersihkan whitespace tanpa menghapus tag HTML"""
+    """bersihkan whitespace tanpa hapus struktur HTML"""
     return re.sub(r'\s+', ' ', html.strip().replace("'", "''"))
+
+
+def sanitize_html(soup):
+    """hapus tag berisiko dan ubah heading ke <p style='font-weight:bold;'>"""
+    # Hapus tag non-teks
+    for tag in soup.find_all(['img', 'svg', 'picture', 'video', 'iframe', 'source', 'button']):
+        tag.decompose()
+
+    # Ganti heading
+    for h in soup.find_all(['h1', 'h2', 'h3']):
+        h.name = 'p'
+        h['style'] = 'font-weight:bold;'
+
+    return str(soup)
+
 
 def scrape_course(course_name):
     slug = (
@@ -50,7 +68,7 @@ def scrape_course(course_name):
         "course_description": "",
         "entry_requirements": "",
         "course_duration_per_week": "",
-        "apply_form": "",
+        "apply_form": onshore_url,  # langsung link course
     }
 
     try:
@@ -61,15 +79,13 @@ def scrape_course(course_name):
             return None
         soup = BeautifulSoup(r.text, "html.parser")
 
-        # Description (HTML)
+        # Description
         desc_block = soup.find("div", {"id": "overview-description"})
         if desc_block:
-            ps = desc_block.find_all("p")
-            if ps:
-                html_content = "".join([str(p) for p in ps])
-                data["course_description"] = clean_html(html_content)
+            desc_html = sanitize_html(desc_block)
+            data["course_description"] = clean_html(desc_html)
 
-        # Duration (e.g. "2 years")
+        # Duration
         dur_tag = soup.find("dd", string=re.compile("year", re.I))
         if dur_tag:
             m = re.search(r"(\d+\s*years?)", dur_tag.text, re.I)
@@ -80,18 +96,7 @@ def scrape_course(course_name):
         if fee_tag:
             data["onshore_tuition_fee"] = extract_number(fee_tag.text)
 
-        # Apply form
-        apply_link = None
-        reg_div = soup.find("div", class_="banner-button-wrap banner-register")
-        if reg_div and reg_div.find("a", href=True):
-            apply_link = reg_div.find("a")["href"]
-        if not apply_link:
-            apply_btn = soup.find("button", {"data-target": "#applynowmodal"})
-            if apply_btn:
-                apply_link = "Apply form (modal)"
-        data["apply_form"] = apply_link or ""
-
-        # Entry requirements (h2 filter)
+        # Entry requirements
         entry_divs = soup.find_all("div", class_="col-md-12 side-accordion--multi")
         target_div = None
         for div in entry_divs:
@@ -100,7 +105,8 @@ def scrape_course(course_name):
                 target_div = div
                 break
         if target_div:
-            data["entry_requirements"] = clean_html(str(target_div))
+            entry_html = sanitize_html(target_div)
+            data["entry_requirements"] = clean_html(entry_html)
 
         # ----------- OFF SHORE -----------
         r2 = session.get(offshore_url, timeout=REQUEST_TIMEOUT)
@@ -118,6 +124,7 @@ def scrape_course(course_name):
 
 
 def generate_update_query(cricos_code, course_data):
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     q = f"""UPDATE courses SET
     course_description = '{course_data["course_description"]}',
     offshore_tuition_fee = '{course_data["offshore_tuition_fee"]}',
@@ -125,7 +132,9 @@ def generate_update_query(cricos_code, course_data):
     entry_requirements = '{course_data["entry_requirements"]}',
     total_course_duration = '{course_data["total_course_duration"]}',
     course_duration_per_week = '{course_data["course_duration_per_week"]}',
-    apply_form = '{course_data["apply_form"]}'
+    apply_form = '{course_data["apply_form"]}',
+    created_at = '{now}',
+    updated_at = '{now}'
     WHERE cricos_course_code = '{cricos_code}';\n\n"""
     return q
 

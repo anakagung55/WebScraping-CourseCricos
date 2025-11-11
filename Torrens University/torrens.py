@@ -1,15 +1,28 @@
 import re, asyncio, pandas as pd
 from bs4 import BeautifulSoup
+from datetime import datetime
 from playwright.async_api import async_playwright
 
+# === CLEAN HTML ===
 def clean_html(html: str) -> str:
     if not html:
         return ""
     html = re.sub(r"\s+", " ", html)
     html = re.sub(r"(<br\s*/?>\s*){2,}", "<br>", html)
+    html = html.replace("'", "''")  # escape SQL
     return html.strip()
 
+# === SANITIZE HTML ===
+def sanitize_html(soup: BeautifulSoup) -> str:
+    """hapus elemen media dan ubah heading ke <p style='font-weight:bold;'>"""
+    for tag in soup.find_all(['img', 'svg', 'picture', 'video', 'iframe', 'source']):
+        tag.decompose()
+    for h in soup.find_all(['h1', 'h2', 'h3']):
+        h.name = 'p'
+        h['style'] = 'font-weight:bold;'
+    return str(soup)
 
+# === SCRAPER PER COURSE ===
 async def scrape_torrens(url, browser):
     data = {
         "url": url,
@@ -18,7 +31,7 @@ async def scrape_torrens(url, browser):
         "total_course_duration": "",
         "offshore_tuition_fee": "",
         "entry_requirements": "",
-        "apply_form": "https://apply.torrens.edu.au/",
+        "apply_form": url,  # ganti jadi link course
         "cricos_course_code": ""
     }
 
@@ -28,7 +41,7 @@ async def scrape_torrens(url, browser):
         # === FIX common typo ===
         url = url.replace("coursess/", "courses/")
 
-        # === LOAD PAGE (domcontentloaded biar cepat & stabil) ===
+        # === LOAD PAGE ===
         try:
             await page.goto(url, timeout=90000, wait_until="domcontentloaded")
         except:
@@ -64,7 +77,8 @@ async def scrape_torrens(url, browser):
 
         # === DESCRIPTION ===
         desc = soup.select_one("div.course-overview__left")
-        data["course_description"] = clean_html(str(desc)) if desc else ""
+        if desc:
+            data["course_description"] = clean_html(sanitize_html(desc))
 
         # === DURATION ===
         durations = soup.select("div.course-card-panel__value")
@@ -77,7 +91,7 @@ async def scrape_torrens(url, browser):
         # === ENTRY REQUIREMENTS ===
         entry = soup.select_one("div.component.admission-criteria")
         if entry:
-            data["entry_requirements"] = clean_html(str(entry))
+            data["entry_requirements"] = clean_html(sanitize_html(entry))
 
         # === CRICOS CODE ===
         cricos_divs = soup.select("div.hero-banner__card__item")
@@ -103,9 +117,11 @@ async def scrape_torrens(url, browser):
     return data
 
 
+# === MAIN LOOP ===
 async def main():
-    df = pd.read_excel("torrens.xlsx")
+    df = pd.read_excel("Torrens University/torrens.xlsx")
     all_data, sqls = [], []
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=False)
@@ -139,7 +155,9 @@ UPDATE courses SET
     total_course_duration = '{esc(result["total_course_duration"])}',
     offshore_tuition_fee = '{esc(result["offshore_tuition_fee"])}',
     entry_requirements = '{esc(result["entry_requirements"])}',
-    apply_form = '{esc(result["apply_form"])}'
+    apply_form = '{esc(result["apply_form"])}',
+    created_at = '{now}',
+    updated_at = '{now}'
 WHERE cricos_course_code = '{cricos}';
 """
             sqls.append(sql)

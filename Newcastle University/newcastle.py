@@ -2,9 +2,9 @@ from playwright.sync_api import sync_playwright
 from bs4 import BeautifulSoup
 import re, time
 
-INPUT_FILE = "Newcastle.txt"
+INPUT_FILE = "Newcastle University/Newcastle.txt"
 BASE = "https://www.newcastle.edu.au/degrees/"
-OUTPUT_FILE = "newcastle_update.sql"
+OUTPUT_FILE = "Newcastle University/newcastle_update.sql"
 
 def parse_courses(file_path):
     courses = []
@@ -40,12 +40,12 @@ def scrape_course(page, cricos, name):
         "onshore_tuition_fee": "",
         "entry_requirements": "",
         "total_course_duration": "",
-        "apply_form": ""
+        "apply_form": url   # ← langsung isi link course
     }
 
     try:
         page.goto(url, timeout=90000, wait_until="domcontentloaded")
-        page.wait_for_timeout(7000)  # tunggu JS render
+        page.wait_for_timeout(7000)
 
         html = page.content()
         soup = BeautifulSoup(html, "html.parser")
@@ -69,10 +69,6 @@ def scrape_course(page, cricos, name):
         dur_tag = soup.select_one("span.degree-full-time-duration")
         if dur_tag:
             data["total_course_duration"] = dur_tag.get_text(strip=True)
-
-        apply_btn = soup.select_one("a.international-apply-button")
-        if apply_btn:
-            data["apply_form"] = apply_btn.get("href")
 
         print(f"✅ Success: {name}")
 

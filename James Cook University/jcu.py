@@ -1,14 +1,28 @@
 import re, asyncio, pandas as pd
 from bs4 import BeautifulSoup
+from datetime import datetime
 from playwright.async_api import async_playwright
 
+# === CLEAN HTML ===
 def clean_html(html: str) -> str:
     if not html:
         return ""
     html = re.sub(r"\s+", " ", html)
     html = re.sub(r"(<br\s*/?>\s*){2,}", "<br>", html)
+    html = html.replace("'", "''")
     return html.strip()
 
+# === SANITIZE HTML ===
+def sanitize_html(soup: BeautifulSoup) -> str:
+    """hapus elemen media & ubah heading ke <p style='font-weight:bold;'>"""
+    for tag in soup.find_all(['img', 'svg', 'picture', 'iframe', 'video', 'source']):
+        tag.decompose()
+    for h in soup.find_all(['h1', 'h2', 'h3']):
+        h.name = 'p'
+        h['style'] = 'font-weight:bold;'
+    return str(soup)
+
+# === SCRAPER PER COURSE ===
 async def scrape_jcu(url, browser):
     data = {
         "url": url,
@@ -17,7 +31,7 @@ async def scrape_jcu(url, browser):
         "total_course_duration": "",
         "offshore_tuition_fee": "",
         "entry_requirements": "",
-        "apply_form": "https://www.jcu.edu.au/brisbane/courses/how-to-apply",
+        "apply_form": url,  # langsung link course
         "cricos_course_code": ""
     }
 
@@ -52,7 +66,8 @@ async def scrape_jcu(url, browser):
 
         # === DESCRIPTION ===
         desc = soup.select_one("p.course-banner__text")
-        data["course_description"] = clean_html(str(desc)) if desc else ""
+        if desc:
+            data["course_description"] = clean_html(sanitize_html(desc))
 
         # === DURATION ===
         dur_tile = soup.select_one("div.fast-facts-duration div.course-fast-facts__tile__body-top p")
@@ -68,7 +83,8 @@ async def scrape_jcu(url, browser):
 
         # === ENTRY REQUIREMENTS ===
         entry_tile = soup.select_one("div.fast-facts-entry-requirements div.course-fast-facts__tile__body-top")
-        data["entry_requirements"] = clean_html(str(entry_tile)) if entry_tile else ""
+        if entry_tile:
+            data["entry_requirements"] = clean_html(sanitize_html(entry_tile))
 
         # === CRICOS CODE ===
         cricos_tile = soup.select_one("div.fast-facts-codes div.cricos-code p")
@@ -84,9 +100,11 @@ async def scrape_jcu(url, browser):
     return data
 
 
+# === MAIN LOOP ===
 async def main():
-    df = pd.read_excel("jcu.xlsx")
+    df = pd.read_excel("James Cook University/jcu.xlsx")
     all_data, sqls = [], []
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=False)
@@ -115,7 +133,9 @@ UPDATE courses SET
     total_course_duration = '{esc(result["total_course_duration"])}',
     offshore_tuition_fee = '{esc(result["offshore_tuition_fee"])}',
     entry_requirements = '{esc(result["entry_requirements"])}',
-    apply_form = '{esc(result["apply_form"])}'
+    apply_form = '{esc(result["apply_form"])}',
+    created_at = '{now}',
+    updated_at = '{now}'
 WHERE cricos_course_code = '{cricos}';
 """
             sqls.append(sql)

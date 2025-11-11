@@ -1,5 +1,6 @@
 import re, asyncio, pandas as pd
 from bs4 import BeautifulSoup
+from datetime import datetime
 from playwright.async_api import async_playwright
 
 # === CLEAN HTML ===
@@ -7,8 +8,18 @@ def clean_html(html: str) -> str:
     if not html:
         return ""
     html = re.sub(r"\s+", " ", html)
-    html = html.replace("'", "''")  # biar aman di SQL
+    html = html.replace("'", "''")  # escape SQL
     return html.strip()
+
+# === SANITIZE HTML ===
+def sanitize_html(soup: BeautifulSoup) -> str:
+    """hapus tag media, ubah heading jadi <p style='font-weight:bold;'>"""
+    for tag in soup.find_all(['img', 'svg', 'picture', 'iframe', 'video', 'source', 'button']):
+        tag.decompose()
+    for h in soup.find_all(['h1', 'h2', 'h3']):
+        h.name = 'p'
+        h['style'] = 'font-weight:bold;'
+    return str(soup)
 
 # === EXTRACT FEE VALUE ===
 def extract_fee_value(html: str) -> str:
@@ -26,7 +37,7 @@ async def scrape_federation_course(page, title, url, duration):
         "offshore_tuition_fee": "",
         "entry_requirements": "",
         "cricos_course_code": "",
-        "apply_form": "https://apply.federation.edu.au/"
+        "apply_form": url,  # langsung link ke course
     }
 
     try:
@@ -39,7 +50,7 @@ async def scrape_federation_course(page, title, url, duration):
         await page.mouse.wheel(0, 6000)
         await page.wait_for_timeout(2000)
 
-        # klik accordion "How to apply"
+        # klik accordion "How to apply" (optional)
         try:
             await page.click("button:has-text('How to apply')")
             await page.wait_for_timeout(2000)
@@ -52,7 +63,7 @@ async def scrape_federation_course(page, title, url, duration):
         # === DESCRIPTION ===
         desc_div = soup.select_one("div.wysiwyg.prose.line-clamp-14.overflow-hidden")
         if desc_div:
-            data["course_description"] = clean_html(str(desc_div))
+            data["course_description"] = clean_html(sanitize_html(desc_div))
 
         # === FEE ===
         fee_div = soup.find(lambda tag: tag.name == "div" and "$" in tag.get_text())
@@ -64,9 +75,9 @@ async def scrape_federation_course(page, title, url, duration):
         if entry_h2:
             parent_section = entry_h2.find_parent("section")
             if parent_section:
-                data["entry_requirements"] = clean_html(str(parent_section))
+                data["entry_requirements"] = clean_html(sanitize_html(parent_section))
 
-        # === CRICOS CODE (pakai evaluate langsung biar pasti muncul) ===
+        # === CRICOS CODE ===
         cricos_code = await page.evaluate("""
             () => {
                 const dts = Array.from(document.querySelectorAll('dt'));
@@ -88,6 +99,7 @@ async def scrape_federation_course(page, title, url, duration):
 
     return data
 
+
 # === MAIN ===
 async def main():
     df = pd.read_excel("Federation University/federation.xlsx")
@@ -107,6 +119,7 @@ async def main():
         await browser.close()
 
     # === SIMPAN KE SQL FILE ===
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     sql_lines = []
     for d in results:
         sql = f"""UPDATE courses SET
@@ -114,7 +127,9 @@ async def main():
     total_course_duration = '{d["total_course_duration"]}',
     offshore_tuition_fee = '{d["offshore_tuition_fee"]}',
     entry_requirements = '{d["entry_requirements"]}',
-    apply_form = '{d["apply_form"]}'
+    apply_form = '{d["apply_form"]}',
+    created_at = '{now}',
+    updated_at = '{now}'
 WHERE cricos_course_code = '{d["cricos_course_code"]}';"""
         sql_lines.append(sql)
 
@@ -122,6 +137,7 @@ WHERE cricos_course_code = '{d["cricos_course_code"]}';"""
         f.write("\n\n".join(sql_lines))
 
     print("\n✅ Done! Saved to federation_update.sql")
+
 
 # === RUN ===
 asyncio.run(main())

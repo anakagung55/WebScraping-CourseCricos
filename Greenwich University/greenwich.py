@@ -1,5 +1,6 @@
 import re, asyncio, pandas as pd
 from bs4 import BeautifulSoup
+from datetime import datetime
 from playwright.async_api import async_playwright
 
 # === CLEAN HTML ===
@@ -7,7 +8,18 @@ def clean_html(html: str) -> str:
     if not html:
         return ""
     html = re.sub(r"\s+", " ", html)
+    html = html.replace("'", "''")
     return html.strip()
+
+# === SANITIZE HTML ===
+def sanitize_html(soup: BeautifulSoup) -> str:
+    """hapus elemen visual dan ubah heading jadi <p style='font-weight:bold;'>"""
+    for tag in soup.find_all(['img', 'svg', 'iframe', 'video', 'picture', 'source']):
+        tag.decompose()
+    for h in soup.find_all(['h1', 'h2', 'h3']):
+        h.name = 'p'
+        h['style'] = 'font-weight:bold;'
+    return str(soup)
 
 # === EXTRACT DURATION VALUE ===
 def extract_duration(text: str) -> str:
@@ -22,14 +34,14 @@ async def scrape_greenwich_course(page, url, cricos):
         "course_description": "",
         "total_course_duration": "",
         "entry_requirements": "",
-        "apply_form": "https://www.greenwichcollege.edu.au/",
+        "apply_form": url,  # langsung ke URL course
         "cricos_course_code": cricos
     }
 
     try:
         print(f"🌐 Scraping {url} ...")
         await page.goto(url, timeout=90000, wait_until="domcontentloaded")
-        await page.wait_for_timeout(4000)  # kasih waktu hubspot render
+        await page.wait_for_timeout(4000)  # waktu untuk render konten
 
         html = await page.content()
         soup = BeautifulSoup(html, "html.parser")
@@ -41,7 +53,8 @@ async def scrape_greenwich_course(page, url, cricos):
             soup.find(lambda t: t.name == "p" and "course" in t.get_text().lower())
         )
         if desc_div:
-            data["course_description"] = clean_html(str(desc_div.find_parent() or desc_div))
+            desc_html = desc_div.find_parent() or desc_div
+            data["course_description"] = clean_html(sanitize_html(BeautifulSoup(str(desc_html), "lxml")))
         else:
             print("⚠️ No description found")
 
@@ -55,7 +68,8 @@ async def scrape_greenwich_course(page, url, cricos):
         # === ENTRY REQUIREMENTS ===
         entry_tag = soup.find(lambda tag: tag.name in ["div", "p", "li", "section"] and re.search(r"entry requirement", tag.get_text(), re.I))
         if entry_tag:
-            data["entry_requirements"] = clean_html(str(entry_tag.find_parent() or entry_tag))
+            entry_html = entry_tag.find_parent() or entry_tag
+            data["entry_requirements"] = clean_html(sanitize_html(BeautifulSoup(str(entry_html), "lxml")))
         else:
             print("⚠️ No entry requirements found")
 
@@ -67,8 +81,9 @@ async def scrape_greenwich_course(page, url, cricos):
 
 # === MAIN LOOP ===
 async def main():
-    df = pd.read_excel("greenwich_matched.xlsx")
+    df = pd.read_excel("Greenwich University/greenwich_matched.xlsx")
     results = []
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
@@ -89,21 +104,22 @@ async def main():
 
         await browser.close()
 
-    # === ESCAPE QUOTES UNTUK SQL ===
-    def escape_sql(text: str) -> str:
+    # === OUTPUT SQL FILE ===
+    def esc(text: str) -> str:
         if not text:
             return ""
         return text.replace("'", "''")
 
-    # === OUTPUT SQL FILE ===
     sql_lines = []
     for d in results:
         sql = f"""UPDATE courses SET
-    course_description = '{escape_sql(d["course_description"])}',
-    total_course_duration = '{escape_sql(d["total_course_duration"])}',
-    entry_requirements = '{escape_sql(d["entry_requirements"])}',
-    apply_form = '{escape_sql(d["apply_form"])}'
-WHERE cricos_course_code = '{escape_sql(d["cricos_course_code"])}';"""
+    course_description = '{esc(d["course_description"])}',
+    total_course_duration = '{esc(d["total_course_duration"])}',
+    entry_requirements = '{esc(d["entry_requirements"])}',
+    apply_form = '{esc(d["apply_form"])}',
+    created_at = '{now}',
+    updated_at = '{now}'
+WHERE cricos_course_code = '{esc(d["cricos_course_code"])}';"""
         sql_lines.append(sql)
 
     with open("greenwich_update.sql", "w", encoding="utf-8") as f:

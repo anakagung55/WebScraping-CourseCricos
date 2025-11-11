@@ -31,7 +31,7 @@ async def scrape_course(url, browser, entry_html):
         "total_course_duration": "",
         "offshore_tuition_fee": "",
         "entry_requirements": entry_html,
-        "apply_form": "https://aih.edu.au",
+        "apply_form": url,
     }
 
     try:

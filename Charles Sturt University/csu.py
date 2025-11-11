@@ -1,5 +1,6 @@
 import re, asyncio, pandas as pd
 from bs4 import BeautifulSoup
+from datetime import datetime
 from playwright.async_api import async_playwright
 
 # === CLEAN HTML ===
@@ -7,7 +8,18 @@ def clean_html(html: str) -> str:
     if not html:
         return ""
     html = re.sub(r"\s+", " ", html)
+    html = html.replace("'", "''")
     return html.strip()
+
+# === SANITIZE HTML ===
+def sanitize_html(soup: BeautifulSoup) -> str:
+    """hapus tag media dan ubah heading ke <p style='font-weight:bold;'>"""
+    for tag in soup.find_all(['img', 'svg', 'iframe', 'video', 'picture', 'source']):
+        tag.decompose()
+    for h in soup.find_all(['h1', 'h2', 'h3']):
+        h.name = "p"
+        h["style"] = "font-weight:bold;"
+    return str(soup)
 
 # === EXTRACT FEE VALUE ===
 def extract_fee_value(html: str) -> str:
@@ -23,7 +35,7 @@ async def scrape_csu_course(page, url, duration):
         "offshore_tuition_fee": "",
         "entry_requirements": "",
         "cricos_course_code": "",
-        "apply_form": "https://study.csu.edu.au/international/apply"
+        "apply_form": url  # langsung ke URL course
     }
 
     try:
@@ -36,7 +48,7 @@ async def scrape_csu_course(page, url, duration):
         # === DESCRIPTION ===
         desc_div = soup.select_one("div.course-overview")
         if desc_div:
-            data["course_description"] = clean_html(str(desc_div))
+            data["course_description"] = clean_html(sanitize_html(desc_div))
 
         # === FEE ===
         fee_div = soup.select_one("div.key-info-content.populate-indicative-fees")
@@ -46,7 +58,7 @@ async def scrape_csu_course(page, url, duration):
         # === ENTRY REQUIREMENTS ===
         entry_section = soup.select_one("section#entry-requirements")
         if entry_section:
-            data["entry_requirements"] = clean_html(str(entry_section))
+            data["entry_requirements"] = clean_html(sanitize_html(entry_section))
 
         # === CRICOS ===
         cricos_span = soup.select_one("div.show-international.cricos-code span.populate-cricos-code")
@@ -61,8 +73,9 @@ async def scrape_csu_course(page, url, duration):
 
 # === MAIN LOOP ===
 async def main():
-    df = pd.read_excel("study_csu.xlsx")
+    df = pd.read_excel("Charles Sturt University/study_csu.xlsx")
     results = []
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
@@ -80,7 +93,7 @@ async def main():
 
     # === OUTPUT SQL FILE ===
     def escape_sql(text: str) -> str:
-        """Escape kutip agar aman di SQL tanpa rusak HTML"""
+        """Escape kutip agar aman di SQL"""
         if not text:
             return ""
         return text.replace("'", "''")
@@ -92,7 +105,9 @@ async def main():
     total_course_duration = '{escape_sql(d["total_course_duration"])}',
     offshore_tuition_fee = '{escape_sql(d["offshore_tuition_fee"])}',
     entry_requirements = '{escape_sql(d["entry_requirements"])}',
-    apply_form = '{escape_sql(d["apply_form"])}'
+    apply_form = '{escape_sql(d["apply_form"])}',
+    created_at = '{now}',
+    updated_at = '{now}'
 WHERE cricos_course_code = '{escape_sql(d["cricos_course_code"])}';"""
         sql_lines.append(sql)
 

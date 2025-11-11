@@ -2,13 +2,27 @@ import re, asyncio, pandas as pd
 from bs4 import BeautifulSoup
 from playwright.async_api import async_playwright
 
-# === CLEAN HTML ===
 def clean_html(html: str) -> str:
+    """Remove images, SVG icons, and convert headings to bold paragraphs."""
     if not html:
         return ""
-    html = re.sub(r"\s+", " ", html)
-    html = re.sub(r"(<br\s*/?>\s*){2,}", "<br>", html)
-    return html.strip()
+    soup = BeautifulSoup(html, "html.parser")
+
+    # Remove all <img> and <svg> icons
+    for tag in soup.find_all(["img", "svg"]):
+        tag.decompose()
+
+    # Replace heading tags with <p style="font-weight:bold;">
+    for tag in soup.find_all(["h1", "h2", "h3", "h4"]):
+        bold_p = soup.new_tag("p", style="font-weight: bold;")
+        bold_p.string = tag.get_text(strip=True)
+        tag.replace_with(bold_p)
+
+    # Clean up whitespace and repeated <br>
+    cleaned = str(soup)
+    cleaned = re.sub(r"\s+", " ", cleaned)
+    cleaned = re.sub(r"(<br\s*/?>\s*){2,}", "<br>", cleaned)
+    return cleaned.strip()
 
 # === EXTRACT FEE ===
 def extract_fee(text: str) -> str:
@@ -20,6 +34,10 @@ def extract_fee(text: str) -> str:
     val = int(m.group(1).replace(",", "")) * 2
     return str(val)
 
+# === ESCAPE SQL ===
+def esc_sql(s: str) -> str:
+    return s.replace("'", "❛") if s else ""
+
 # === SCRAPE SINGLE COURSE ===
 async def scrape_vu(url, duration, browser, retry_domestic=True):
     """Scrape satu halaman course VU dengan fallback ke versi non-/international jika kosong"""
@@ -30,7 +48,6 @@ async def scrape_vu(url, duration, browser, retry_domestic=True):
         "total_course_duration": duration,
         "offshore_tuition_fee": "",
         "entry_requirements": "",
-        "apply_form": "https://eaams.vu.edu.au/portal/Apply.aspx",
         "cricos_course_code": ""
     }
 
@@ -47,7 +64,6 @@ async def scrape_vu(url, duration, browser, retry_domestic=True):
         empty_page = not soup.select_one("div#overview") and not soup.select_one("div#entry-requirements")
 
         if empty_page and retry_domestic and "/international" in url:
-            # coba fallback ke versi tanpa /international
             new_url = url.replace("/international", "")
             print(f"🔁 Empty international page detected, retrying with domestic: {new_url}")
             await page.close()
@@ -84,7 +100,7 @@ async def scrape_vu(url, duration, browser, retry_domestic=True):
             m = re.search(r"\b\d{6,7}[A-Z]?\b", soup.get_text())
             if m:
                 cricos = m.group(0)
-        data["cricos_course_code"] = cricos
+        data["cricos_course_code"] = cricos.strip()
 
     except Exception as e:
         print(f"⚠️ Error scraping {url}: {e}")
@@ -93,9 +109,10 @@ async def scrape_vu(url, duration, browser, retry_domestic=True):
 
     return data
 
+
 # === MAIN ===
 async def main():
-    df = pd.read_excel("vu.xlsx")
+    df = pd.read_excel("Victoria University/vu.xlsx")
     all_data = []
     sqls = []
 
@@ -110,22 +127,30 @@ async def main():
             print(f"\n🔍 ({i}/{len(df)}) Scraping: {title}")
             result = await scrape_vu(url, duration, browser)
             result["title"] = title
-            all_data.append(result)
+            result["apply_form"] = url  # ✅ langsung ambil dari kolom Excel
 
-            cricos = result["cricos_course_code"] or "UNKNOWN"
-            def esc(s): return s.replace("'", "''") if s else ""
+            cricos = result["cricos_course_code"].strip()
+            if not cricos:
+                print(f"⚠️ Skipped (no CRICOS): {title}")
+                continue
+
+            all_data.append(result)
 
             sql = f"""
 UPDATE courses SET
-    course_description = '{esc(result["course_description"])}',
-    total_course_duration = '{esc(result["total_course_duration"])}',
-    offshore_tuition_fee = '{esc(result["offshore_tuition_fee"])}',
-    entry_requirements = '{esc(result["entry_requirements"])}',
-    apply_form = '{esc(result["apply_form"])}'
-WHERE cricos_course_code = '{cricos}';
+    course_description = '{esc_sql(result["course_description"])}',
+    total_course_duration = '{esc_sql(result["total_course_duration"])}',
+    offshore_tuition_fee = '{esc_sql(result["offshore_tuition_fee"])}',
+    entry_requirements = '{esc_sql(result["entry_requirements"])}',
+    apply_form = '{esc_sql(result["apply_form"])}',
+    created_at = NOW(),
+    updated_at = NOW()
+WHERE cricos_course_code = '{esc_sql(cricos)}';
 """
             sqls.append(sql)
+            print(f"✅ Success: {cricos}")
 
+            # === AUTO-SAVE TIAP 10 COURSE ===
             if i % 10 == 0:
                 pd.DataFrame(all_data).to_excel("vu_scraped_progress.xlsx", index=False)
                 with open("vu_scraped_progress.sql", "w", encoding="utf-8") as f:
@@ -134,11 +159,13 @@ WHERE cricos_course_code = '{cricos}';
 
         await browser.close()
 
+    # === FINAL SAVE ===
     pd.DataFrame(all_data).to_excel("vu_scraped_all.xlsx", index=False)
     with open("vu_scraped_all.sql", "w", encoding="utf-8") as f:
         f.write("\n".join(sqls))
 
-    print("\n✅ Done! Saved:\n- vu_scraped_all.xlsx\n- vu_scraped_all.sql")
+    print("\n🎯 Done! Saved all results:\n- vu_scraped_all.xlsx\n- vu_scraped_all.sql")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

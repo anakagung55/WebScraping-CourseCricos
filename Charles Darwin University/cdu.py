@@ -1,13 +1,28 @@
 import re, asyncio, pandas as pd
 from bs4 import BeautifulSoup
+from datetime import datetime
 from playwright.async_api import async_playwright
 
 # === CLEAN HTML ===
 def clean_html(html: str) -> str:
+    """Membersihkan whitespace dan escape tanda kutip SQL"""
     if not html:
         return ""
     html = re.sub(r"\s+", " ", html)
+    html = html.replace("'", "''")
     return html.strip()
+
+# === SANITIZE HTML ===
+def sanitize_html(soup: BeautifulSoup) -> str:
+    """Ubah <h1,h2,h3> ke <p style='font-weight:bold;'> dan hapus media tag"""
+    for tag in soup.find_all(['img', 'svg', 'picture', 'iframe', 'video', 'source', 'button']):
+        tag.decompose()
+
+    for h in soup.find_all(['h1', 'h2', 'h3']):
+        h.name = 'p'
+        h['style'] = 'font-weight:bold;'
+
+    return str(soup)
 
 # === EXTRACT FEE VALUE ===
 def extract_fee_value(html: str) -> str:
@@ -23,7 +38,7 @@ async def scrape_cdu_course(page, url, duration):
         "offshore_tuition_fee": "",
         "entry_requirements": "",
         "cricos_course_code": "",
-        "apply_form": "https://student-cdu.studylink.com/"
+        "apply_form": url,  # langsung ke URL course
     }
 
     print(f"🌐 Scraping {url} ...")
@@ -36,7 +51,7 @@ async def scrape_cdu_course(page, url, duration):
         # === DESCRIPTION ===
         desc_div = soup.select_one("div#overview.section.rich-text")
         if desc_div:
-            data["course_description"] = clean_html(str(desc_div))
+            data["course_description"] = clean_html(sanitize_html(desc_div))
 
         # === FEE ===
         fee_p = soup.find(lambda tag: tag.name == "p" and "$" in tag.get_text())
@@ -46,14 +61,16 @@ async def scrape_cdu_course(page, url, duration):
         # === ENTRY REQUIREMENTS ===
         entry_div = soup.select_one("div#entry-requirements.section.rich-text")
         if entry_div:
-            data["entry_requirements"] = clean_html(str(entry_div))
+            data["entry_requirements"] = clean_html(sanitize_html(entry_div))
 
-        # === CRICOS ===
+        # === CRICOS CODE ===
         for div in soup.select("div.fable__cell.fable__value.align--right"):
             text = div.get_text(strip=True)
             if re.match(r"^\d{6,7}[A-Za-z]?$", text):
                 data["cricos_course_code"] = text
                 break
+
+        print(f"✅ Done: {data['cricos_course_code']}")
 
     except Exception as e:
         print(f"⚠️ Error scraping {url}: {e}")
@@ -63,7 +80,7 @@ async def scrape_cdu_course(page, url, duration):
 
 # === MAIN LOOP ===
 async def main():
-    df = pd.read_excel("cdu.xlsx")
+    df = pd.read_excel("Charles Darwin University/cdu.xlsx")
     results = []
 
     async with async_playwright() as p:
@@ -81,6 +98,7 @@ async def main():
         await browser.close()
 
     # === OUTPUT SQL FILE ===
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     sql_lines = []
     for d in results:
         sql = f"""UPDATE courses SET
@@ -88,7 +106,9 @@ async def main():
     total_course_duration = '{d["total_course_duration"]}',
     offshore_tuition_fee = '{d["offshore_tuition_fee"]}',
     entry_requirements = '{d["entry_requirements"]}',
-    apply_form = '{d["apply_form"]}'
+    apply_form = '{d["apply_form"]}',
+    created_at = '{now}',
+    updated_at = '{now}'
 WHERE cricos_course_code = '{d["cricos_course_code"]}';"""
         sql_lines.append(sql)
 

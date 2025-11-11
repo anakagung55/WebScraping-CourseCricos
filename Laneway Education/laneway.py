@@ -16,7 +16,7 @@ async def scrape_laneway(url, browser):
         "total_course_duration": "",
         "offshore_tuition_fee": "",
         "entry_requirements": "",
-        "apply_form": "https://laneway.edu.au"
+        "apply_form": url
     }
 
     page = await browser.new_page()
@@ -48,9 +48,18 @@ async def scrape_laneway(url, browser):
 
     # === ENTRY REQUIREMENTS ===
     entry_blocks = soup.select(".et_pb_blurb_description")
+    target_block = None
     if entry_blocks:
-        entry_html = clean_html(str(entry_blocks[-1]))
-        data["entry_requirements"] = entry_html
+        for block in entry_blocks:
+            text = block.get_text(" ", strip=True)
+            # deteksi pola umum entry requirement
+            if re.search(r"(Australian\s+Year|IELTS|Certificate|age\s+at\s+course|equivalent|English\s+language)", text, re.I):
+                target_block = block
+                break
+
+    if target_block:
+        data["entry_requirements"] = clean_html(str(target_block))
+
 
     await page.close()
     return data

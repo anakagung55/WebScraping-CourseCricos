@@ -20,7 +20,7 @@ async def scrape_vit(page, url):
         "offshore_tuition_fee": "",
         "entry_requirements": "",
         "cricos_course_code": "",
-        "apply_form": "https://vit.edu.au/apply-now"
+        "apply_form": url
     }
 
     try:
@@ -76,11 +76,25 @@ async def scrape_vit(page, url):
                 m2 = re.search(r"([\d\-–]+ ?(?:week|year|month|semester|term)s?)", text, re.I)
                 if m2: data["total_course_duration"] = m2.group(1)
 
-        # === ENTRY FALLBACK ===
+        # === ENTRY FALLBACK (Improved) ===
         if not data["entry_requirements"]:
-            entry_div = soup.find(lambda t: t.name == "div" and re.search(r"(entry requirement|min.*english)", t.get_text(), re.I))
-            if entry_div:
-                data["entry_requirements"] = clean_html(str(entry_div))
+            entry_h2 = soup.find("h2", string=re.compile(r"(Entry Requirement|Minimum English Language Requirement)", re.I))
+            if entry_h2:
+                # ambil parent terdekat yang berisi section lengkap
+                parent_div = entry_h2.find_parent("div", class_=re.compile(r"section|content|title", re.I))
+                if parent_div:
+                    data["entry_requirements"] = clean_html(str(parent_div))
+                else:
+                    # fallback: ambil langsung h2 + sibling berikutnya (misal <ul> atau <p>)
+                    next_sibs = []
+                    for sib in entry_h2.find_next_siblings():
+                        if sib.name in ["ul", "ol", "p", "div"]:
+                            next_sibs.append(str(sib))
+                        else:
+                            break
+                    html_block = str(entry_h2) + "".join(next_sibs)
+                    data["entry_requirements"] = clean_html(html_block)
+
 
         # === FEE ===
         fee_div = soup.find(lambda t: t.name in ["ul", "li", "p", "div", "span"] and "$" in t.get_text())

@@ -11,15 +11,21 @@ def clean_html(html: str) -> str:
     return html.strip()
 
 
+# === EXTRACT DURATION DARI HALAMAN ===
+def extract_duration(text: str) -> str:
+    """Cari pola durasi seperti '52 weeks', '1 year', '2 years', dst"""
+    match = re.search(r'(\d{1,3}\s*(weeks?|months?|years?))', text, re.IGNORECASE)
+    return match.group(1) if match else ""
+
+
 # === SCRAPER PER COURSE ===
 async def scrape_imc_course(page, url, cricos, duration, fee):
     data = {
-        "url": url,
         "course_description": "",
         "total_course_duration": duration,
         "offshore_tuition_fee": fee,
         "entry_requirements": "",
-        "apply_form": "https://www.imc.edu.au/apply",
+        "apply_form": url,
         "cricos_course_code": cricos
     }
 
@@ -53,6 +59,17 @@ async def scrape_imc_course(page, url, cricos, duration, fee):
         else:
             print("⚠️ No entry requirements found")
 
+        # === CARI DURATION DI HALAMAN JIKA KOSONG ===
+        if not data["total_course_duration"] or data["total_course_duration"].lower() in ["nan", "none", ""]:
+            duration_found = ""
+            for p in soup.find_all(["p", "li", "span"]):
+                if "week" in p.get_text().lower() or "year" in p.get_text().lower():
+                    duration_found = extract_duration(p.get_text())
+                    if duration_found:
+                        data["total_course_duration"] = duration_found
+                        print(f"📆 Duration found from page: {duration_found}")
+                        break
+
     except Exception as e:
         print(f"⚠️ Error scraping {url}: {e}")
 
@@ -61,7 +78,7 @@ async def scrape_imc_course(page, url, cricos, duration, fee):
 
 # === MAIN LOOP ===
 async def main():
-    df = pd.read_excel("imc_merged.xlsx")
+    df = pd.read_excel("Institute Management Commerce/imc_merged.xlsx")
     results = []
 
     async with async_playwright() as p:
@@ -99,7 +116,8 @@ async def main():
     total_course_duration = '{escape_sql(d["total_course_duration"])}',
     offshore_tuition_fee = '{escape_sql(d["offshore_tuition_fee"])}',
     entry_requirements = '{escape_sql(d["entry_requirements"])}',
-    apply_form = '{escape_sql(d["apply_form"])}'
+    apply_form = '{escape_sql(d["apply_form"])}',
+    updated_at = NOW()
 WHERE cricos_course_code = '{escape_sql(d["cricos_course_code"])}';"""
         sql_lines.append(sql)
 
